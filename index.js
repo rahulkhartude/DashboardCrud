@@ -10,6 +10,10 @@ const Jwt = require('jsonwebtoken')
 const jwtKey = 'e-comm';
 
 app.post("/register",async(req,resp)=>{
+   const {name,email,password} = req.body;
+   console.log("In reg",name,email,password);
+
+   if(req.body.password && req.body.email){
    let user = new User(req.body);
    let result =await user.save();
    result =  result.toObject();
@@ -20,6 +24,11 @@ app.post("/register",async(req,resp)=>{
       }
       resp.send({result,auth:token});
    })
+    }
+    else 
+    {
+      resp.send({result:"Please provide all details"})
+    }
 })
 
 app.post('/login',async(req,resp)=>{
